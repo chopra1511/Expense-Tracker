@@ -7,7 +7,33 @@ const AuthForm = (props) => {
     const passwordInputRef = useRef();
 
     const [isLogin, setIsLogin] = useState(true);
+    const [isVerified , setIsVerified] = useState(true);
 
+    const verificationHandler = () => {
+      if (!isVerified) {
+        fetch(
+          "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBPFxrja-wN2YJAfTaqzNoEpHhXcpn5hLw",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              requestType: "VERIFY_EMAIL",
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((data) => {
+            setIsVerified(false);
+            console.log(data);
+          })
+          .catch((err) => {
+            alert(err.message);
+          });
+      }
+
+      }
+     
     const switchAuthModeHandler = () => {
       setIsLogin((prevState) => !prevState);
     };
@@ -19,7 +45,7 @@ const AuthForm = (props) => {
         const enteredPassword = passwordInputRef.current.value;
       let url;
     if (isLogin) {
-     
+      url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBPFxrja-wN2YJAfTaqzNoEpHhXcpn5hLw";
     } else {
       url =
         "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBPFxrja-wN2YJAfTaqzNoEpHhXcpn5hLw";
@@ -90,6 +116,7 @@ const AuthForm = (props) => {
             />
             <label htmlfor="floatingPassword">Confirm Password</label>
           </div>}
+          {isVerified && <button className="btn btn-dark" type="submit" onClick={verificationHandler}>Verify E-mail</button>}
           <button className="btn btn-lg btn-primary" type="submit">
             {isLogin ? "Login" : "Create Account"}
           </button>
