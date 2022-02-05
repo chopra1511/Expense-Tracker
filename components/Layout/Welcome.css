@@ -1,0 +1,19 @@
+.up{
+    position: absolute;
+    left: 5px;
+    margin: 10px;
+}
+
+.d-flex{
+    margin: 10px;
+    border-radius: 50px;
+    background: rgb(204, 176, 181);
+    text-align: center;
+}
+
+.h3{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    padding: 10px;
+
+}

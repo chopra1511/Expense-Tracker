@@ -73,7 +73,7 @@ const AuthForm = (props) => {
         }
       })
       .then((data) => {
-        history.replace('/');
+        history.replace('/welcome');
         console.log(data);
       })
       .catch((err) => {
