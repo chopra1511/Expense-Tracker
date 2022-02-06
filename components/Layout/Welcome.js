@@ -6,7 +6,11 @@ import './Welcome.css';
 
 const Welcome = (props) => {
     const authCtx = useContext(AuthContext);
-    let name,url;
+
+    const logoutHandler = () => {
+      authCtx.logout();
+    }
+
     fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBPFxrja-wN2YJAfTaqzNoEpHhXcpn5hLw",
       {
@@ -22,8 +26,6 @@ const Welcome = (props) => {
       }).then(data => {
         console.log("Your Full Name: ", data.users[0].displayName);
         console.log("Your Profile URL: ", data.users[0].photoUrl);
-        name = data.users[0].displayName;
-        url = data.users[0].photoUrl;
       })
 
 
@@ -34,14 +36,22 @@ const Welcome = (props) => {
             <i>
               <h3 className="h3">Welcome To Expense Tracker!!!</h3>
             </i>
-            <form className="d-flex">
+            <div className="d-flex">
               <h3 className="h3">
                 <i>
                   Your Profile Is Incomplete.
                   <NavLink to="/contact">Complete Now</NavLink>
                 </i>
               </h3>
-            </form>
+            </div>
+            <div>
+              <button
+                className="btn btn-outline-danger"
+                onClick={logoutHandler}
+              >
+                LogOut
+              </button>
+            </div>
           </div>
         </nav>
         <div className="card">
