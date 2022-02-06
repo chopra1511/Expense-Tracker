@@ -1,5 +1,6 @@
 import { Fragment, useContext, useRef } from "react";
 import { NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import AuthContext from "../../store/auth-context";
 import "./Contact.css";
 
@@ -7,16 +8,17 @@ import "./Contact.css";
 const Contact = (props) => {
 
     const authCtx = useContext(AuthContext);
-
+   const history = useHistory();
     const nameEntered = useRef();
     const urlEntered = useRef();
 
     const submitHandler = (event) => {
+        event.preventDefault();
         const name = nameEntered.current.value;
         const url = urlEntered.current.value;
-        event.preventDefault();
         console.log(name, url);
 
+        
         fetch(
           "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBPFxrja-wN2YJAfTaqzNoEpHhXcpn5hLw",
           {
@@ -34,9 +36,11 @@ const Contact = (props) => {
         )
           .then((res) => {
             console.log(res.json());
+            history.replace("/welcome");
+
           })
-          .catch((err) => {
-            console.log(err.message);
+          .catch((error) => {
+            alert(error.message);
           });
     };
 

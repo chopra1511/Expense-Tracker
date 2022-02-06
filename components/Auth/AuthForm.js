@@ -1,9 +1,12 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
 import Navigation from "../Layout/Navigation";
 import "./AuthForm.css";
 
 const AuthForm = (props) => {
+
+  const authCtx = useContext(AuthContext);
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
 
@@ -27,7 +30,6 @@ const AuthForm = (props) => {
       )
         .then((data) => {
           setIsVerified(true)
-          console.log(data);
         })
         .catch((err) => {
           alert(err.message);
@@ -64,6 +66,7 @@ const AuthForm = (props) => {
       .then((res) => {
         if (res.ok) {
           console.log("User Logged in");
+          history.replace("/welcome");
           return res.json();
         } else {
           return res.json().then((data) => {
@@ -73,8 +76,7 @@ const AuthForm = (props) => {
         }
       })
       .then((data) => {
-        history.replace('/welcome');
-        console.log(data);
+        authCtx.login(data.idToken);
       })
       .catch((err) => {
         alert(err.message);
@@ -96,7 +98,7 @@ const AuthForm = (props) => {
               placeholder="name@example.com"
               required
             />
-            <label htmlfor="floatingInput">Email address</label>
+            <label htmlFor="floatingInput">Email address</label>
           </div>
           <div className="form-floating">
             <input
@@ -106,18 +108,28 @@ const AuthForm = (props) => {
               placeholder="Password"
               required
             />
-            <label htmlfor="floatingPassword">Password</label>
+            <label htmlFor="floatingPassword">Password</label>
           </div>
-          {!isLogin && <div className="form-floating">
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Password"
-              required
-            />
-            <label htmlfor="floatingPassword">Confirm Password</label>
-          </div>}
-          {isVerified && <button className="btn btn-dark" type="submit" onClick={verificationHandler}>Verify E-mail</button>}
+          {!isLogin && (
+            <div className="form-floating">
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Password"
+                required
+              />
+              <label htmlFor="floatingPassword">Confirm Password</label>
+            </div>
+          )}
+          {isVerified && (
+            <button
+              className="btn btn-dark"
+              type="submit"
+              onClick={verificationHandler}
+            >
+              Verify E-mail
+            </button>
+          )}
           <button className="btn btn-lg btn-primary" type="submit">
             {isLogin ? "Login" : "Create Account"}
           </button>

@@ -1,8 +1,32 @@
-import { Fragment } from 'react';
+
+import { Fragment, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import AuthContext from '../../store/auth-context';
 import './Welcome.css';
 
-const Welcome = () => {
+const Welcome = (props) => {
+    const authCtx = useContext(AuthContext);
+    let name,url;
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBPFxrja-wN2YJAfTaqzNoEpHhXcpn5hLw",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          idToken: authCtx.token,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(res =>{
+        return res.json();
+      }).then(data => {
+        console.log("Your Full Name: ", data.users[0].displayName);
+        console.log("Your Profile URL: ", data.users[0].photoUrl);
+        name = data.users[0].displayName;
+        url = data.users[0].photoUrl;
+      })
+
+
     return (
       <Fragment>
         <nav className="navbar navbar-light bg-light">
@@ -20,6 +44,10 @@ const Welcome = () => {
             </form>
           </div>
         </nav>
+        <div className="card">
+          <h2>Full Name: </h2>
+          <h2>Profile URL: </h2>
+        </div>
       </Fragment>
     );
 };
