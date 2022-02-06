@@ -1,16 +1,19 @@
 
 import { Fragment, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import AuthContext from '../../store/auth-context';
 import './Welcome.css';
 
 const Welcome = (props) => {
+  
     const authCtx = useContext(AuthContext);
+    const history = useHistory();
 
     const logoutHandler = () => {
       authCtx.logout();
+      history.replace("/");
     }
-
     fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBPFxrja-wN2YJAfTaqzNoEpHhXcpn5hLw",
       {
@@ -24,8 +27,8 @@ const Welcome = (props) => {
       }).then(res =>{
         return res.json();
       }).then(data => {
-        console.log("Your Full Name: ", data.users[0].displayName);
-        console.log("Your Profile URL: ", data.users[0].photoUrl);
+        alert("Your Full Name: " + data.users[0].displayName + "\n" + "Your Profile URL: " + data.users[0].photoUrl);
+        
       })
 
 
@@ -54,9 +57,8 @@ const Welcome = (props) => {
             </div>
           </div>
         </nav>
-        <div className="card">
-          <h2>Full Name: </h2>
-          <h2>Profile URL: </h2>
+        <div className='card'>
+          
         </div>
       </Fragment>
     );

@@ -13,27 +13,9 @@ const AuthForm = (props) => {
     const history = useHistory();
 
     const [isLogin, setIsLogin] = useState(true);
-    const [isVerified , setIsVerified] = useState(true);
 
-    const verificationHandler = () => {
-      fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBPFxrja-wN2YJAfTaqzNoEpHhXcpn5hLw",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            requestType: "VERIFY_EMAIL",
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((data) => {
-          setIsVerified(true)
-        })
-        .catch((err) => {
-          alert(err.message);
-        });
+    const passwordHandler = () => {
+      history.replace("/forgotPassword");
     }
 
     const switchAuthModeHandler = () => {
@@ -121,18 +103,11 @@ const AuthForm = (props) => {
               <label htmlFor="floatingPassword">Confirm Password</label>
             </div>
           )}
-          {isVerified && (
-            <button
-              className="btn btn-dark"
-              type="submit"
-              onClick={verificationHandler}
-            >
-              Verify E-mail
-            </button>
-          )}
+          {isLogin && <button className="btn btn-light" onClick={passwordHandler}>Forgot Password?</button>}<br/>
           <button className="btn btn-lg btn-primary" type="submit">
             {isLogin ? "Login" : "Create Account"}
           </button>
+          <br />
           <button
             className="btn btn-outline-dark"
             type="submit"
