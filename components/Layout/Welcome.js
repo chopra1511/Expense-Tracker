@@ -18,6 +18,9 @@ const Welcome = (props) => {
     const date = new Date();
     const d = date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear();
 
+    
+    
+
     const logoutHandler = () => {
       authCtx.logout();
       history.replace("/");
@@ -47,13 +50,41 @@ const Welcome = (props) => {
         const description = enteredDescription.current.value;
         const select = enteredSelect.current.value;
         
-        document.getElementById("amount").innerText = amount;
-        document.getElementById("description").innerText = description;
-        document.getElementById("select").innerText = select;
+        
 
         console.log(amount, description, select);
+
+        fetch(
+          "https://expense-36826-default-rtdb.firebaseio.com/expenseData.json",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              amount: amount,
+              des: description,
+              category: select,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }).then((res) => res.json()).then((data) => {
+            console.log(data);
+          })
+
       }
       
+      fetch(
+        "https://expense-36826-default-rtdb.firebaseio.com/expenseData.json"
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          for(const key in data){
+            document.getElementById("a").innerText = data[key].amount;
+            document.getElementById("d").innerText = data[key].des;
+            document.getElementById("c").innerText = data[key].category;
+            console.log(data[key].amount, data[key].des, data[key].category);
+          }
+          console.log(data); 
+        });
      
 
 
@@ -65,9 +96,7 @@ const Welcome = (props) => {
               <h3 className="h3">Welcome To Expense Tracker!!!</h3>
             </i>
             <div className="d-flex">
-              <h3 className="h3">
-                USER:
-              </h3>
+              <h3 className="h3">USER:</h3>
               <h3 className="h3" id="name">
                 {" "}
               </h3>
@@ -135,16 +164,14 @@ const Welcome = (props) => {
             <div className="col">Date: {d} </div>
           </div>
           <div className="row">
-            <div className="col">Amount:</div>
-            <div className="col" id="amount"></div>
+            <div className="col">Amount</div>
+            <div className="col">Description</div>
+            <div className="col">Category</div>
           </div>
           <div className="row">
-            <div className="col">Description:</div>
-            <div className="col" id="description"></div>
-          </div>
-          <div className="row">
-            <div className="col">Category:</div>
-            <div className="col" id="select"></div>
+            <div className="col" id="a"></div>
+            <div className="col" id="d"></div>
+            <div className="col" id="c"></div>
           </div>
         </div>
       </Fragment>
