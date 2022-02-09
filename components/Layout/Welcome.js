@@ -73,7 +73,9 @@ const Welcome = (props) => {
     .then((res) => res.json())
     .then((data) => {
       const eData = [];
-      for (const key in data) {
+      let tA = 0;
+      for (const key in data) {    
+        tA = +tA + +data[key].amount;
         eData.push({
           id: key,
           amount: data[key].amount,
@@ -82,6 +84,13 @@ const Welcome = (props) => {
         });
         console.log(data[key].amount, data[key].des, data[key].category);
       }
+      if(tA > 10000){
+        console.log("premium");
+        document.getElementById("premium").innerText = "Premium";
+      }else{
+        document.getElementById("premium").innerText = "";
+      }
+      document.getElementById('total').innerText = tA;
       setExpense(eData);
       console.log(data);
     });
@@ -95,9 +104,7 @@ const Welcome = (props) => {
           </i>
           <div className="d-flex">
             <h3 className="h3">USER:</h3>
-            <h3 className="h3" id="name">
-              {" "}
-            </h3>
+            <h3 className="h3" id="name"> </h3>
           </div>
           <div className="d-flex">
             <h3 className="h3">
@@ -153,7 +160,7 @@ const Welcome = (props) => {
           </button>
         </form>
       </div>
-      <Expense exp={expense}/>
+      <Expense exp={expense} />
     </Fragment>
   );
 };

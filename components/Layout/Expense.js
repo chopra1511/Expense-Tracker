@@ -49,7 +49,15 @@ const Expense = props => {
           <div className="col">Amount</div>
           <div className="col">Description</div>
           <div className="col">Category</div>
-          <div className="col"></div>
+          <div className="col">
+            Total
+            <h3 className="h3 mb-3 fw-normal" id="total">
+              
+            </h3>
+            <button className="btn btn-info" id="premium">
+              
+            </button>
+          </div>
         </div>
         {props.exp.map((data) => (
           <div className="row">
