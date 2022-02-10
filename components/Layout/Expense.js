@@ -1,6 +1,21 @@
+import { useContext } from "react";
+import ThemeContext from "../../store/theme-context";
+
 const Expense = props => {
+
+   const theme = useContext(ThemeContext);
+   const darkMode = theme.state.darkMode;
     const date = new Date();
     const d = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+
+     const data = props.exp.map(data => data);
+     function makeCsv(row) {
+       return row.map((r) => r.join(",")).join("\n");
+     }
+
+     const blob = new Blob([makeCsv(data)]);
+     const h = URL.createObjectURL(blob);
+
 
     const deleteHandler = (val) => {
       fetch(
@@ -36,27 +51,28 @@ const Expense = props => {
              console.log(data);
            });
     }
-
+   
     return (
-      <div className="card ex">
+      <div className={`card ex ${darkMode ? "dark" : " "}`}>
         <i>
           <h1 className="h3 mb-3 fw-normal">Day-To-Day Expense</h1>
         </i>
         <div className="row h5 mb-3 fw-normal">
           <div className="col">Date: {d} </div>
         </div>
+        <a href={h} download="File.csv" >Download</a>
         <div className="row">
           <div className="col">Amount</div>
           <div className="col">Description</div>
           <div className="col">Category</div>
           <div className="col">
             Total
-            <h3 className="h3 mb-3 fw-normal" id="total">
-              
-            </h3>
-            <button className="btn btn-info" id="premium">
-              
-            </button>
+            <h3 className="h3 mb-3 fw-normal" id="total"> </h3>
+            {props.total && (
+              <button className="btn btn-info" id="premium">
+                Premium
+              </button>
+            )}
           </div>
         </div>
         {props.exp.map((data) => (

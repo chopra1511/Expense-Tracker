@@ -1,13 +1,17 @@
-import { useRef} from "react";
+import { useContext, useRef} from "react";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { Fragment } from "react/cjs/react.production.min";
+import ThemeContext from "../../store/theme-context";
 import Navigation from "../Layout/Navigation";
 
 const ForgotPassword = () => {
     
     const enteredEmail = useRef();
     const history = useHistory();
+
+    const theme = useContext(ThemeContext);
+    const darkMode = theme.state.darkMode;
 
     const sendReqhandler = (event) => {
         event.preventDefault();
@@ -41,12 +45,18 @@ const ForgotPassword = () => {
 
 
   return (
-    <Fragment>
+    <Fragment className={`${darkMode ? "dark" : " "}`}>
       <Navigation />
-      <div className="card">
+      <div className={`card ${darkMode ? "dark" : " "}`}>
         <form onSubmit={sendReqhandler}>
           <h1 className="h3 mb-3 fw-normal">Forgot Password</h1>
-          <div className="form-floating">
+          <div>
+            <label
+              className={`${darkMode ? "dark" : " "}`}
+              htmlFor="floatingInput"
+            >
+              Please Enter Your E-Mail
+            </label>
             <input
               ref={enteredEmail}
               type="email"
@@ -55,14 +65,12 @@ const ForgotPassword = () => {
               placeholder="name@example.com"
               required
             />
-            <label htmlFor="floatingInput">Please Enter Your E-Mail</label>
           </div>
-          <button className="btn btn-outline-dark">Send Link</button>
+          <button className="btn btn-dark">Send Link</button>
           <NavLink to="/">
             <button className="btn btn-dark">Already a user? Login</button>
           </NavLink>
         </form>
-        
       </div>
     </Fragment>
   );

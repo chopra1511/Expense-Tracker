@@ -1,9 +1,12 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { Fragment } from "react/cjs/react.production.min";
+import ThemeContext from "../../store/theme-context";
 import Navigation from "../Layout/Navigation";
 
 const ResetCode = (props) => {
+  const theme = useContext(ThemeContext);
+  const darkMode = theme.state.darkMode;
 
     const codeRef = useRef();
     const history = useHistory();
@@ -45,12 +48,18 @@ const ResetCode = (props) => {
     }
 
     return (
-      <Fragment>
+      <Fragment className={`${darkMode ? "dark" : " "}`}>
         <Navigation />
-        <div className="card">
+        <div className={`card ${darkMode ? "dark" : " "}`}>
           <form onSubmit={codeHandler}>
             <h1 className="h3 mb-3 fw-normal">Reset Code</h1>
-            <div className="form-floating">
+            <div>
+              <label
+                className={`${darkMode ? "dark" : " "}`}
+                htmlFor="floatingInput"
+              >
+                Please Enter Reset Code
+              </label>
               <input
                 ref={codeRef}
                 type="text"
@@ -59,7 +68,6 @@ const ResetCode = (props) => {
                 placeholder="abcABC"
                 required
               />
-              <label htmlFor="floatingInput">Please Enter Reset Code</label>
             </div>
             <button className="btn btn-outline-success">Submit</button>
           </form>

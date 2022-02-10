@@ -2,11 +2,16 @@ import { Fragment, useContext, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import AuthContext from "../../store/auth-context";
+import ThemeContext from "../../store/theme-context";
 import Expense from "./Expense";
 import "./Welcome.css";
 
 const Welcome = (props) => {
+const theme = useContext(ThemeContext);
+const darkMode = theme.state.darkMode;
+
   const [expense, setExpense] = useState([]);
+  const [total, setTotal] = useState(false);
   const authCtx = useContext(AuthContext);
   const history = useHistory();
 
@@ -86,9 +91,9 @@ const Welcome = (props) => {
       }
       if(tA > 10000){
         console.log("premium");
-        document.getElementById("premium").innerText = "Premium";
+        setTotal(true);
       }else{
-        document.getElementById("premium").innerText = "";
+        setTotal(false);
       }
       document.getElementById('total').innerText = tA;
       setExpense(eData);
@@ -96,15 +101,17 @@ const Welcome = (props) => {
     });
 
   return (
-    <Fragment>
-      <nav className="navbar navbar-light bg-light">
+    <Fragment className={`${darkMode ? "dark" : " "}`}>
+      <nav className={`navbar ${darkMode ? "dark" : " "}`}>
         <div className="container-fluid">
           <i>
             <h3 className="h3">Welcome To Expense Tracker!!!</h3>
           </i>
           <div className="d-flex">
             <h3 className="h3">USER:</h3>
-            <h3 className="h3" id="name"> </h3>
+            <h3 className="h3" id="name">
+              {" "}
+            </h3>
           </div>
           <div className="d-flex">
             <h3 className="h3">
@@ -121,10 +128,16 @@ const Welcome = (props) => {
           </div>
         </div>
       </nav>
-      <div className="card">
+      <div className={`card${darkMode ? "dark" : " "}`}>
         <form onSubmit={expenseHnadler}>
           <h1 className="h3 mb-3 fw-normal">Day-To-Day Expense</h1>
-          <div className="form-floating">
+          <div>
+            <label
+              className={`${darkMode ? "dark" : " "}`}
+              htmlFor="floatingPassword"
+            >
+              Amount
+            </label>
             <input
               ref={enteredAmount}
               type="number"
@@ -133,9 +146,14 @@ const Welcome = (props) => {
               placeholder="number"
               required
             />
-            <label htmlFor="floatingPassword">Amount</label>
           </div>
-          <div className="form-floating">
+          <div>
+            <label
+              className={`${darkMode ? "dark" : " "}`}
+              htmlFor="floatingPassword"
+            >
+              Description
+            </label>
             <input
               type="text"
               id="des"
@@ -144,11 +162,19 @@ const Welcome = (props) => {
               required
               ref={enteredDescription}
             />
-            <label htmlFor="floatingPassword">Description</label>
           </div>
-          <label htmlFor="floatingPassword">Category</label>
+          <label
+            className={`${darkMode ? "dark" : " "}`}
+            htmlFor="floatingPassword"
+          >
+            Category
+          </label>
           <div className="form-floating">
-            <select className="form-control" id="cat" ref={enteredSelect}>
+            <select
+              className={`form-control${darkMode ? "dark" : " "}`}
+              id="cat"
+              ref={enteredSelect}
+            >
               <option value="Food">Food</option>
               <option value="Salary">Salary</option>
               <option value="Petrol">Petrol</option>
@@ -160,7 +186,7 @@ const Welcome = (props) => {
           </button>
         </form>
       </div>
-      <Expense exp={expense} />
+      <Expense exp={expense} total={total} />
     </Fragment>
   );
 };

@@ -2,11 +2,13 @@ import { Fragment, useContext, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import AuthContext from "../../store/auth-context";
+import ThemeContext from "../../store/theme-context";
 import "./Contact.css";
 
 
 const Contact = (props) => {
-
+const theme = useContext(ThemeContext);
+const darkMode = theme.state.darkMode;
     const authCtx = useContext(AuthContext);
    const history = useHistory();
     const nameEntered = useRef();
@@ -48,8 +50,8 @@ const Contact = (props) => {
 
 
   return (
-    <Fragment>
-      <nav className="navbar navbar-light bg-light">
+    <Fragment className={`${darkMode ? "dark" : " "}`}>
+      <nav className={`navbar ${darkMode ? "dark" : " "}`}>
         <div className="container-fluid">
           <h3 className="h3">
             <i>Winners Never Quit, Quitters Never Win.</i>
@@ -77,18 +79,14 @@ const Contact = (props) => {
               </NavLink>
             </div>
           </div>
-          <label className="col-sm-2 col-form-label" htmlFor="Name">
-            Full Name:
-          </label>
+          <label htmlFor="Name">Full Name:</label>
           <input
             className="form-control"
             type="text"
             required
             ref={nameEntered}
           />
-          <label className="col-sm-2 col-form-label" htmlFor="Name">
-            Profile Photo URL:
-          </label>
+          <label htmlFor="Name">Profile Photo URL:</label>
           <input
             className="form-control"
             type="url"

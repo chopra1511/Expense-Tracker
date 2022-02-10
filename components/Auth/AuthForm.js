@@ -1,11 +1,13 @@
 import { Fragment, useRef, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
+import ThemeContext from "../../store/theme-context";
 import Navigation from "../Layout/Navigation";
 import "./AuthForm.css";
 
 const AuthForm = (props) => {
-
+const theme = useContext(ThemeContext);
+const darkMode = theme.state.darkMode;
   const authCtx = useContext(AuthContext);
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
@@ -66,12 +68,18 @@ const AuthForm = (props) => {
   };
   
   return (
-    <Fragment>
+    <Fragment className={`${darkMode ? "dark" : " "}`}>
       <Navigation />
-      <div className="card">
+      <div className={` card ${darkMode ? "dark" : " "}`}>
         <form onSubmit={submitHandler}>
           <h1 className="h3 mb-3 fw-normal">{isLogin ? "Login" : "Sign Up"}</h1>
-          <div className="form-floating">
+          <div>
+            <label
+              className={`${darkMode ? "dark" : " "}`}
+              htmlFor="floatingInput"
+            >
+              Email address
+            </label>
             <input
               ref={emailInputRef}
               type="email"
@@ -80,9 +88,14 @@ const AuthForm = (props) => {
               placeholder="name@example.com"
               required
             />
-            <label htmlFor="floatingInput">Email address</label>
           </div>
-          <div className="form-floating">
+          <div>
+            <label
+              className={`${darkMode ? "dark" : " "}`}
+              htmlFor="floatingPassword"
+            >
+              Password
+            </label>
             <input
               ref={passwordInputRef}
               type="password"
@@ -90,26 +103,35 @@ const AuthForm = (props) => {
               placeholder="Password"
               required
             />
-            <label htmlFor="floatingPassword">Password</label>
           </div>
           {!isLogin && (
-            <div className="form-floating">
+            <div>
+              <label
+                className={`${darkMode ? "dark" : " "}`}
+                htmlFor="floatingPassword"
+              >
+                Confirm Password
+              </label>
               <input
                 type="password"
                 className="form-control"
                 placeholder="Password"
                 required
               />
-              <label htmlFor="floatingPassword">Confirm Password</label>
             </div>
           )}
-          {isLogin && <button className="btn btn-light" onClick={passwordHandler}>Forgot Password?</button>}<br/>
+          {isLogin && (
+            <button className="btn btn-light" onClick={passwordHandler}>
+              Forgot Password?
+            </button>
+          )}
+          <br />
           <button className="btn btn-lg btn-primary" type="submit">
             {isLogin ? "Login" : "Create Account"}
           </button>
           <br />
           <button
-            className="btn btn-outline-dark"
+            className="btn btn-dark"
             type="submit"
             onClick={switchAuthModeHandler}
           >

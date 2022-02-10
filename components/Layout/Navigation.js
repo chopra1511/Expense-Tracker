@@ -1,9 +1,24 @@
-import { Fragment } from "react/cjs/react.production.min";
+import { Fragment, useContext } from "react";
+import ThemeContext from "../../store/theme-context";
+
 
 const Navigation = () => {
+  const theme = useContext(ThemeContext);
+  const darkMode = theme.state.darkMode;
+
+  const onClick = () => {
+    if (darkMode) theme.dispatch({ type: "LIGHTMODE" });
+    else theme.dispatch({ type: "DARKMODE" });
+  };
+
+
     return (
-      <Fragment>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <Fragment className={`${darkMode ? "dark" : " "}`}>
+        <nav
+          className={`navbar navbar-expand-lg navbar-light bg-light${
+            darkMode ? "dark" : " "
+          }`}
+        >
           <div className="container-fluid">
             <a className="navbar-brand" href=" ">
               MyWebLink
@@ -19,6 +34,12 @@ const Navigation = () => {
                 <a className="nav-link" href=" ">
                   ABOUT US
                 </a>
+                <button
+                  className={`btn ${darkMode ? "btn-dark" : "btn-light"}`}
+                  onClick={onClick}
+                >
+                  {darkMode ? "Light Mode" : "Dark Mode"}
+                </button>
               </div>
             </div>
           </div>

@@ -1,8 +1,12 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { Fragment } from "react/cjs/react.production.min";
+import ThemeContext from "../../store/theme-context";
 import Navigation from "../Layout/Navigation";
 
 const NewPassword = (props) => {
+
+  const theme = useContext(ThemeContext);
+  const darkMode = theme.state.darkMode;
 
   const passRef = useRef();
     const codeRef = useRef();
@@ -35,12 +39,18 @@ const NewPassword = (props) => {
   };
 
   return (
-    <Fragment>
+    <Fragment className={`${darkMode ? "dark" : " "}`}>
       <Navigation />
-      <div className="card">
+      <div className={`card ${darkMode ? "dark" : " "}`}>
         <form onSubmit={changePassHandler}>
           <h1 className="h3 mb-3 fw-normal">Reset Password</h1>
-          <div className="form-floating">
+          <div>
+            <label
+              className={`${darkMode ? "dark" : " "}`}
+              htmlFor="floatingPassword"
+            >
+              ReEnter The Reset Code
+            </label>
             <input
               ref={codeRef}
               type="text"
@@ -48,9 +58,14 @@ const NewPassword = (props) => {
               placeholder="text"
               required
             />
-            <label htmlFor="floatingPassword">ReEnter The Reset Code</label>
           </div>
-          <div className="form-floating">
+          <div>
+            <label
+              className={`${darkMode ? "dark" : " "}`}
+              htmlFor="floatingPassword"
+            >
+              New Password
+            </label>
             <input
               ref={passRef}
               type="password"
@@ -58,16 +73,20 @@ const NewPassword = (props) => {
               placeholder="Password"
               required
             />
-            <label htmlFor="floatingPassword">New Password</label>
           </div>
-          <div className="form-floating">
+          <div>
+            <label
+              className={`${darkMode ? "dark" : " "}`}
+              htmlFor="floatingPassword"
+            >
+              Confirm Password
+            </label>
             <input
               type="password"
               className="form-control"
               placeholder="Password"
               required
             />
-            <label htmlFor="floatingPassword">Confirm Password</label>
           </div>
           <button className="btn btn-success" type="submit">
             Change Password

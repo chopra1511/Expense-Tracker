@@ -14,7 +14,7 @@ function App() {
 
  const authCtx = useContext(AuthContext);
   return (
-    <div>
+    <div >
       <Switch>
         <Route path="/" exact>
           <AuthForm />
@@ -34,7 +34,7 @@ function App() {
           <ResetCode />
         </Route>
         <Route path="/newpass">
-          <NewPassword/>
+          <NewPassword />
         </Route>
       </Switch>
     </div>
