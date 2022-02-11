@@ -2,13 +2,12 @@ import { Fragment, useContext, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import AuthContext from "../../store/auth-context";
-import ThemeContext from "../../store/theme-context";
+
 import "./Contact.css";
 
 
 const Contact = (props) => {
-const theme = useContext(ThemeContext);
-const darkMode = theme.state.darkMode;
+
     const authCtx = useContext(AuthContext);
    const history = useHistory();
     const nameEntered = useRef();
@@ -50,8 +49,8 @@ const darkMode = theme.state.darkMode;
 
 
   return (
-    <Fragment className={`${darkMode ? "dark" : " "}`}>
-      <nav className={`navbar ${darkMode ? "dark" : " "}`}>
+    <Fragment>
+      <nav className={`navbar `}>
         <div className="container-fluid">
           <h3 className="h3">
             <i>Winners Never Quit, Quitters Never Win.</i>

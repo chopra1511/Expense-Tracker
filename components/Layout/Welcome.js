@@ -2,13 +2,13 @@ import { Fragment, useContext, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import AuthContext from "../../store/auth-context";
-import ThemeContext from "../../store/theme-context";
+
 import Expense from "./Expense";
 import "./Welcome.css";
 
 const Welcome = (props) => {
-const theme = useContext(ThemeContext);
-const darkMode = theme.state.darkMode;
+
+
 
   const [expense, setExpense] = useState([]);
   const [total, setTotal] = useState(false);
@@ -101,8 +101,9 @@ const darkMode = theme.state.darkMode;
     });
 
   return (
-    <Fragment className={`${darkMode ? "dark" : " "}`}>
-      <nav className={`navbar ${darkMode ? "dark" : " "}`}>
+    <Fragment className="dark">
+      <h1>Welcome To Expense Tracker!!!</h1>
+      <nav className={`navbar dark`}>
         <div className="container-fluid">
           <i>
             <h3 className="h3">Welcome To Expense Tracker!!!</h3>
@@ -128,14 +129,11 @@ const darkMode = theme.state.darkMode;
           </div>
         </div>
       </nav>
-      <div className={`card${darkMode ? "dark" : " "}`}>
+      <div className={`card dark`}>
         <form onSubmit={expenseHnadler}>
           <h1 className="h3 mb-3 fw-normal">Day-To-Day Expense</h1>
           <div>
-            <label
-              className={`${darkMode ? "dark" : " "}`}
-              htmlFor="floatingPassword"
-            >
+            <label className={`dark`} htmlFor="floatingPassword">
               Amount
             </label>
             <input
@@ -148,10 +146,7 @@ const darkMode = theme.state.darkMode;
             />
           </div>
           <div>
-            <label
-              className={`${darkMode ? "dark" : " "}`}
-              htmlFor="floatingPassword"
-            >
+            <label className={`dark`} htmlFor="floatingPassword">
               Description
             </label>
             <input
@@ -163,15 +158,12 @@ const darkMode = theme.state.darkMode;
               ref={enteredDescription}
             />
           </div>
-          <label
-            className={`${darkMode ? "dark" : " "}`}
-            htmlFor="floatingPassword"
-          >
+          <label className={`dark`} htmlFor="floatingPassword">
             Category
           </label>
           <div className="form-floating">
             <select
-              className={`form-control${darkMode ? "dark" : " "}`}
+              className={`form-control dark`}
               id="cat"
               ref={enteredSelect}
             >

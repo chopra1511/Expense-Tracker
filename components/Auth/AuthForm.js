@@ -7,7 +7,7 @@ import "./AuthForm.css";
 
 const AuthForm = (props) => {
 const theme = useContext(ThemeContext);
-const darkMode = theme.state.darkMode;
+const darkMode = theme.darkMode;
   const authCtx = useContext(AuthContext);
     const emailInputRef = useRef();
     const passwordInputRef = useRef();

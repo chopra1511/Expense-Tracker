@@ -8,13 +8,18 @@ const Expense = props => {
     const date = new Date();
     const d = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
 
-     const data = props.exp.map(data => data);
-     function makeCsv(row) {
-       return row.map((r) => r.join(",")).join("\n");
-     }
+    //  const data = props.exp.map(data => data);
+    //  function makeCsv(row) {
+    //    return row.map((r) => r.join(",")).join("\n");
+    //  }
 
-     const blob = new Blob([makeCsv(data)]);
-     const h = URL.createObjectURL(blob);
+    //  const blob = new Blob([makeCsv(data)]);
+    //  const h = URL.createObjectURL(blob);
+
+    const onClick = () => {
+      if (darkMode) theme.dispatch({ type: "LIGHTMODE" });
+      else theme.dispatch({ type: "DARKMODE" });
+    };
 
 
     const deleteHandler = (val) => {
@@ -31,7 +36,7 @@ const Expense = props => {
         });
     } 
 
-    function updateHandler(val,amt,des,cat) {
+    function updateHandler(val) {
          fetch(
            `https://expense-36826-default-rtdb.firebaseio.com/expenseData/${val.target.id}.json`,
            {
@@ -60,7 +65,7 @@ const Expense = props => {
         <div className="row h5 mb-3 fw-normal">
           <div className="col">Date: {d} </div>
         </div>
-        <a href={h} download="File.csv" >Download</a>
+        <a href= " " download="File.csv" >Download</a>
         <div className="row">
           <div className="col">Amount</div>
           <div className="col">Description</div>
@@ -69,7 +74,7 @@ const Expense = props => {
             Total
             <h3 className="h3 mb-3 fw-normal" id="total"> </h3>
             {props.total && (
-              <button className="btn btn-info" id="premium">
+              <button className={`btn btn-info ${darkMode ? "dark" : " "}`} id="premium" onClick={onClick}>
                 Premium
               </button>
             )}
